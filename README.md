@@ -1,6 +1,6 @@
 # 🏷️ レイヤー命名君 (Layer Naming Assistant)
 
-[![Figma Plugin](https://img.shields.io/badge/Figma-Plugin-F24E1E?style=flat-square&logo=figma&logoColor=white)](https://figma.com)
+[![Figma Plugin](https://img.shields.io/badge/Figma-Plugin-F24E1E?style=flat-square&logo=figma&logoColor=white)](https://www.figma.com/community/plugin/1526734498180576886/auto-layer-namer)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Multi-language](https://img.shields.io/badge/Languages-3-4285F4?style=flat-square)](https://github.com)
 
@@ -161,28 +161,11 @@ figma-auto-namer/
 - 🏗️ 11デザインシステム対応
 - 🧠 複雑な判定アルゴリズム
 
-## 🤝 コントリビューション
-
-### 開発に参加する
-```bash
-# リポジトリをフォーク
-git clone https://github.com/[your-username]/management.git
-cd 07_design/tools/figma-auto-namer
-
-# ブランチを作成
-git checkout -b feature/amazing-feature
-
-# 変更をコミット
-git commit -m "✨ Add amazing feature"
-
-# プルリクエストを作成
-```
 
 ### 開発ガイドライン
 - シンプルさと予測可能性を重視
 - 日本語サポートの維持
 - パフォーマンスの最適化
-- スマートHRライクな品質基準
 
 ## 📝 ライセンス
 
@@ -191,14 +174,14 @@ MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照
 ## 🔗 関連リンク
 
 - [Figmaコミュニティ](https://figma.com/community) - プラグインページ
-- [開発者ブログ](https://blog.example.com) - 技術詳細
+- [開発者ブログ](https://note.com/dubhunter) - 技術詳細
 - [スマートHR Design](https://smarthr.design) - 参考にした命名規則
 
 ## 📞 サポート
 
 ### 問題を報告
 - [GitHub Issues](https://github.com/umechofu/management/issues) - バグ報告・機能要望
-- [Twitter](https://twitter.com/example) - 迅速なサポート
+- [Twitter](https://x.com/dubhunter) - 迅速なサポート
 
 ### よくある質問
 **Q: コンポーネント名が変わってしまう**  
@@ -217,6 +200,6 @@ A: プラグインを再起動してください。設定は自動で保存さ�
 **Made with ❤️ for the Design Community**
 
 [![Star on GitHub](https://img.shields.io/github/stars/umechofu/management?style=social)](https://github.com/umechofu/management)
-[![Follow on Twitter](https://img.shields.io/twitter/follow/example?style=social)](https://twitter.com/example)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/example?style=social)](https://x.com/dubhunter)
 
 </div>
