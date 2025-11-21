@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>レイヤー命名君</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
+  <script src="ai-icon-classifier.js"></script>
+  <style>
+    /* ========================================
+       AI Color Magic - Plugin Styles
+       Hyperbit-inspired × Plugin CSS Fusion
+       ======================================== */
+
+    :root {
+      /* Key Color */
+      --color-key: #C9E832;
+      --color-key-dark: #B4D12A;
+      --color-key-darker: #9FBA22;
+
+      /* Neutral Colors */
+      --color-main-body: #080d12;
+      --color-main-bg: #fff;
+      --color-main-50: #f6f9fb;
+      --color-main-100: #f1f6f9;
+      --color-main-200: #e9eef1;
+      --color-main-300: #e2eaee;
+      --color-main-500: #bac1c5;
+      --color-main-600: #7f8b91;
+      --color-main-700: #6f767a;
+      --color-main-800: #3a4247;
+
+      /* Primary Blue */
+      --color-primary: #24afff;
+      --color-primary-bg: #ebf6ff;
+
+      /* Danger/Error Colors */
+      --color-danger: #EF4444;
+      --color-danger-bg: #FEE2E2;
+
+      /* Gradients */
+      --gradient-hero: linear-gradient(135deg, #C9E832 0%, #a2eb2d 100%);
+
+      /* Radius */
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+
+      /* Typography */
+      --text-xs: 0.75rem;
+      /* 12px */
+      --text-sm: 0.8125rem;
+      /* 13px */
+      --text-md: 0.875rem;
+      /* 14px */
+      --text-lg: 1rem;
+      /* 16px */
+      --text-xl: 1.125rem;
+      /* 18px */
+
+      /* Transitions */
+      --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      color: var(--color-main-body);
+      background: var(--color-main-50);
+      padding: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========================================
+       LAYOUT & CONTAINERS
+       ======================================== */
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title {
+      font-size: var(--text-lg);
+      font-weight: 800;
+      color: var(--color-main-body);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Cards (Main Sections) */
+    .main-section,
+    .settings-section,
+    .quick-presets {
+      background: var(--color-main-bg);
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      border: 2px solid var(--color-main-200);
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s var(--ease-out);
+    }
+
+    .main-section:hover,
+    .settings-section:hover {
+      border-color: var(--color-main-300);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-main-600);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Description Box */
+    .description {
+      background: var(--color-main-50);
+      border-radius: var(--radius-lg);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--color-main-200);
+    }
+
+    .description p {
+      font-size: var(--text-xs);
+      color: var(--color-main-700);
+      line-height: 1.6;
+    }
+
+    /* Naming Rules List */
+    .naming-rules {
+      background: var(--color-main-bg);
+      border: 1px solid var(--color-main-200);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .rule-item {
+      font-size: var(--text-xs);
+      color: var(--color-main-700);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--color-main-100);
+      display: flex;
+      gap: 8px;
+    }
+
+    .rule-item:last-child {
+      border-bottom: none;
+    }
+
+    .rule-item strong {
+      color: var(--color-primary);
+      font-weight: 700;
+      min-width: 80px;
+    }
+
+    /* Settings Group */
+    .settings-group {
+      margin: 16px 0;
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-out);
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--gradient-hero);
+      color: var(--color-main-body);
+      box-shadow:
+        0 0 0 1px hsla(70, 78%, 75%, 1),
+        0 2px 6px -1px hsla(70, 78%, 50%, 0.25);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #B4D12A 0%, #8FCC1E 100%);
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 0 1px hsla(70, 78%, 70%, 1),
+        0 6px 16px -2px hsla(70, 78%, 50%, 0.35);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--color-main-bg);
+      color: var(--color-main-body);
+      border: 2px solid var(--color-main-200);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--color-main-50);
+      border-color: var(--color-key);
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ========================================
+       INPUTS & CONTROLS
+       ======================================== */
+    .form-control,
+    .language-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--color-main-200);
+      font-size: var(--text-sm);
+      font-family: inherit;
+      color: var(--color-main-body);
+      background: var(--color-main-bg);
+      transition: all 0.2s var(--ease-out);
+      outline: none;
+      appearance: none;
+    }
+
+    .form-control:focus,
+    .language-select:focus {
+      border-color: var(--color-key);
+      box-shadow: 0 0 0 3px rgba(201, 232, 50, 0.1);
+    }
+
+    .language-select {
+      padding-right: 32px;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%237f8b91' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 10px center;
+      background-repeat: no-repeat;
+      background-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Checkbox */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      cursor: pointer;
+    }
+
+    .checkbox {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--color-main-300);
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s var(--ease-out);
+      flex-shrink: 0;
+      background: var(--color-main-bg);
+    }
+
+    .checkbox:checked {
+      background: var(--color-key);
+      border-color: var(--color-key);
+    }
+
+    .checkbox:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      width: 10px;
+      height: 5px;
+      border-left: 2.5px solid var(--color-main-body);
+      border-bottom: 2.5px solid var(--color-main-body);
+    }
+
+    .checkbox:hover {
+      border-color: var(--color-key);
+    }
+
+    .checkbox-label {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-main-700);
+    }
+
+    /* ========================================
+       PRESET BUTTONS
+       ======================================== */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .preset-button {
+      padding: 16px;
+      background: var(--color-main-bg);
+      border: 2px solid var(--color-main-200);
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: all 0.2s var(--ease-out);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .preset-button:hover {
+      background: var(--color-main-50);
+      border-color: var(--color-key);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .preset-button.selected {
+      background: var(--color-key);
+      border-color: var(--color-key);
+      box-shadow: 0 8px 20px rgba(201, 232, 50, 0.3);
+    }
+
+    .preset-button.selected:hover {
+      transform: translateY(-2px);
+      background: var(--color-key-dark);
+    }
+
+    .preset-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-main-body);
+    }
+
+    .preset-description {
+      font-size: var(--text-xs);
+      color: var(--color-main-600);
+    }
+
+    .preset-button.selected .preset-title,
+    .preset-button.selected .preset-description,
+    .preset-button.selected iconify-icon {
+      color: var(--color-main-body) !important;
+    }
+
+    /* ========================================
+       TABS
+       ======================================== */
+    .ui-mode-tabs {
+      display: flex;
+      background: var(--color-main-100);
+      padding: 4px;
+      border-radius: var(--radius-xl);
+      margin-bottom: 20px;
+    }
+
+    .ui-mode-tab {
+      flex: 1;
+      padding: 8px;
+      text-align: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-main-600);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all 0.2s var(--ease-out);
+      border: none;
+      background: transparent;
+    }
+
+    .ui-mode-tab.active {
+      background: var(--color-main-bg);
+      color: var(--color-main-body);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .ui-mode-tab:hover:not(.active) {
+      color: var(--color-main-800);
+    }
+
+    /* ========================================
+       PROGRESS & STATUS
+       ======================================== */
+    .progress-section {
+      margin-top: 16px;
+      display: none;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--color-main-200);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--color-key);
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 99px;
+    }
+
+    .progress-text {
+      font-size: var(--text-xs);
+      color: var(--color-main-600);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .status-message {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-align: center;
+      display: none;
+    }
+
+    .status-message.success {
+      background: #DCFCE7;
+      color: #166534;
+    }
+
+    .status-message.error {
+      background: var(--color-danger-bg);
+      color: var(--color-danger-dark);
+    }
+
+    /* ========================================
+       UTILITIES
+       ======================================== */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    iconify-icon {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <div class="header">
+      <div class="header-content"
+        style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+        <div class="title-section">
+          <div class="title"><iconify-icon icon="prime:tag"
+              style="color: var(--color-primary); margin-right: 4px;"></iconify-icon>レイヤー命名君</div>
+        </div>
+        <div class="language-section">
+          <div class="language-selector">
+            <select id="global-language" class="language-select">
+              <option value="japanese">🇯🇵 日本語</option>
+              <option value="english">🇺🇸 English</option>
+              <option value="chinese">🇨🇳 中文</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新しいシンプルな命名システム -->
+    <div class="main-section">
+      <div class="section-title">
+        <iconify-icon icon="prime:bolt" style="color: var(--color-primary); margin-right: 4px;"></iconify-icon>
+        機械的レイヤー命名
+      </div>
+
+      <div class="description">
+        <p>デザイナー推奨の命名規則に基づいて、一貫性のあるレイヤー名を自動生成します。</p>
+      </div>
+
+      <div class="naming-rules">
+        <div class="rule-item">
+          <strong>コンポーネント:</strong> そのまま（PrimaryButton、Heading）
+        </div>
+        <div class="rule-item">
+          <strong>複数レイヤー:</strong> 名前 + 連番（Item 1、Item 2）
+        </div>
+        <div class="rule-item">
+          <strong>基本要素:</strong> text、base、border、mask、label、header、footer、group
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <label class="checkbox-group">
+          <input type="checkbox" id="ignore-components" class="checkbox" checked>
+          <span class="checkbox-label">コンポーネント・インスタンスを無視</span>
+        </label>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="rename-selected">
+          <iconify-icon icon="prime:tag" style="margin-right: 6px;"></iconify-icon>
+          選択したレイヤーをリネーム
+        </button>
+
+        <button class="btn btn-secondary" id="rename-page">
+          <iconify-icon icon="prime:file" style="margin-right: 6px;"></iconify-icon>
+          ページ全体をリネーム
+        </button>
+      </div>
+    </div>
+
+
+    <!-- 進捗表示 -->
+    <div class="progress-section" id="progress-section">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text" id="progress-text">処理中...</div>
+    </div>
+
+    <!-- ステータスメッセージ -->
+    <div class="status-message" id="status-message"></div>
+  </div>
+
+  <script>
+    // 新しいシンプルなシステム
+    let currentSettings = {
+      language: 'japanese',
+      smarthrMode: true,
+      ignoreComponents: true
+    };
+
+    // 現在のUIテキスト
+    let currentTexts = {};
+
+    // DOM要素の取得
+    const elements = {
+      renameSelected: document.getElementById('rename-selected'),
+      renamePage: document.getElementById('rename-page'),
+      ignoreComponents: document.getElementById('ignore-components'),
+      progressSection: document.getElementById('progress-section'),
+      progressFill: document.getElementById('progress-fill'),
+      progressText: document.getElementById('progress-text'),
+      statusMessage: document.getElementById('status-message'),
+      globalLanguage: document.getElementById('global-language')
+    };
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', function () {
+      setupEventListeners();
+      loadSettings();
+      // 初期UIテキストを要求
+      requestUITexts(currentSettings.language);
+    });
+
+    // イベントリスナー設定
+    function setupEventListeners() {
+      // 設定変更（コンポーネント無視）
+      if (elements.ignoreComponents) {
+        elements.ignoreComponents.addEventListener('change', (e) => {
+          currentSettings.ignoreComponents = e.target.checked;
+          saveSettings();
+        });
+      }
+
+      // リネームボタン
+      elements.renameSelected.addEventListener('click', () => {
+        startRename('selected');
+      });
+
+      elements.renamePage.addEventListener('click', () => {
+        startRename('page');
+      });
+
+      // 言語選択
+      if (elements.globalLanguage) {
+        elements.globalLanguage.addEventListener('change', (e) => {
+          currentSettings.language = e.target.value;
+          saveSettings();
+          // UIテキストを更新
+          requestUITexts(currentSettings.language);
+        });
+      }
+
+    }
+
+    // リネーム開始
+    function startRename(scope) {
+      showProgress(true);
+      setUIEnabled(false);
+
+      parent.postMessage({
+        pluginMessage: {
+          type: 'rename-layers',
+          settings: currentSettings,
+          scope: scope
+        }
+      }, '*');
+    }
+
+    // 進捗表示制御
+    function showProgress(show) {
+      elements.progressSection.style.display = show ? 'block' : 'none';
+      if (show) {
+        elements.progressFill.style.width = '0%';
+        elements.progressText.textContent = '処理中...';
+      }
+    }
+
+    // UI有効/無効制御
+    function setUIEnabled(enabled) {
+      elements.renameSelected.disabled = !enabled;
+      elements.renamePage.disabled = !enabled;
+      if (elements.globalLanguage) {
+        elements.globalLanguage.disabled = !enabled;
+      }
+    }
+
+    // ステータスメッセージ表示
+    function showStatusMessage(message, type) {
+      elements.statusMessage.textContent = message;
+      elements.statusMessage.className = `status-message visible ${type}`;
+
+      // 3秒後に自動非表示
+      setTimeout(() => {
+        elements.statusMessage.classList.remove('visible');
+      }, 3000);
+    }
+
+    // 設定保存
+    function saveSettings() {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'save-settings',
+          settings: currentSettings
+        }
+      }, '*');
+    }
+
+    // 設定読み込み
+    function loadSettings() {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'load-settings'
+        }
+      }, '*');
+    }
+
+    // UIテキスト要求
+    function requestUITexts(language) {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'get-ui-texts',
+          language: language
+        }
+      }, '*');
+    }
+
+    // UIテキスト更新
+    function updateUITexts(texts) {
+      currentTexts = texts;
+
+      // セクションタイトル
+      const sectionTitle = document.querySelector('.section-title');
+      if (sectionTitle) {
+        sectionTitle.innerHTML = `<iconify-icon icon="prime:bolt" style="color: var(--color-primary); margin-right: 4px;"></iconify-icon>${texts.mechanicalNaming}`;
+      }
+
+      // 説明文
+      const description = document.querySelector('.description p');
+      if (description) {
+        description.textContent = texts.mechanicalDesc;
+      }
+
+      // ルール説明
+      const ruleItems = document.querySelectorAll('.rule-item');
+      if (ruleItems.length >= 3) {
+        ruleItems[0].innerHTML = `<strong>${texts.componentRule}</strong> ${texts.componentRuleDesc}`;
+        ruleItems[1].innerHTML = `<strong>${texts.multipleRule}</strong> ${texts.multipleRuleDesc}`;
+        ruleItems[2].innerHTML = `<strong>${texts.basicRule}</strong> ${texts.basicRuleDesc}`;
+      }
+
+      // チェックボックスラベル
+      if (elements.ignoreComponents) {
+        const label = elements.ignoreComponents.nextElementSibling;
+        if (label) {
+          label.textContent = texts.ignoreComponents;
+        }
+      }
+
+      // ボタンテキスト
+      if (elements.renameSelected) {
+        elements.renameSelected.innerHTML = `<iconify-icon icon="prime:tag" style="margin-right: 6px;"></iconify-icon>${texts.renameSelected}`;
+      }
+      if (elements.renamePage) {
+        elements.renamePage.innerHTML = `<iconify-icon icon="prime:file" style="margin-right: 6px;"></iconify-icon>${texts.renamePage}`;
+      }
+    }
+
+    // メッセージ受信処理
+    window.onmessage = function (event) {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      switch (msg.type) {
+        case 'settings-loaded':
+          currentSettings = Object.assign({}, currentSettings, msg.settings);
+          if (elements.globalLanguage) {
+            elements.globalLanguage.value = currentSettings.language;
+          }
+          if (elements.ignoreComponents) {
+            elements.ignoreComponents.checked = currentSettings.ignoreComponents !== false;
+          }
+          // 設定読み込み後にUIテキストを要求
+          requestUITexts(currentSettings.language);
+          break;
+
+        case 'ui-texts-loaded':
+          updateUITexts(msg.uiTexts);
+          break;
+
+        case 'progress-update':
+          elements.progressFill.style.width = `${msg.progress}%`;
+          elements.progressText.textContent = `${msg.current} / ${msg.total}`;
+          break;
+
+        case 'rename-complete':
+          showProgress(false);
+          setUIEnabled(true);
+          showStatusMessage(msg.message, 'success');
+          break;
+
+        case 'error':
+          showProgress(false);
+          setUIEnabled(true);
+          showStatusMessage(msg.message, 'error');
+          break;
+
+        case 'status-update':
+          elements.progressText.textContent = msg.message;
+          break;
+      }
+    };
+  </script>
+</body>
+
+</html>

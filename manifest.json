@@ -1,0 +1,14 @@
+{
+  "name": "レイヤー命名君 (Layer Naming Assistant)",
+  "id": "1526734498180576886",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "permissions": [],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["*"],
+    "reasoning": "AI機能を使用した命名提案のため"
+  }
+}
